@@ -1,0 +1,62 @@
+# 2024 --  Maintainer of this PKGBUILD file: Feng Wang <wang_feng@live.com>
+# ? -- 2024 Maintainer of this PKGBUILD file: Martino Pilia <martino.pilia@gmail.com>
+_name=pptk
+pkgname=python-$_name-git
+pkgver=r51.e92849d
+pkgrel=1
+pkgdesc="Python package for visualizing and processing 2-d/3-d point clouds"
+arch=('x86_64')
+url="https://github.com/heremaps/pptk.git"
+license=('MIT')
+depends=(
+	'eigen'
+	'python-numpy'
+	'qt5-base'
+)
+makedepends=(
+	'cmake'
+	'git'
+	'patchelf'
+	'python-pip'
+	'python-setuptools'
+	'python-wheel'
+)
+provides=('python-pptk')
+source=(
+	git+https://github.com/fengwang/pptk.git
+)
+sha256sums=(
+	'SKIP'
+)
+
+pkgver() {
+	cd "$srcdir/$_name"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/$_name"
+
+
+	cmake . \
+		-DEigen_INCLUDE_DIR:FILEPATH="/usr/include/eigen3" \
+		-DNumpy_INCLUDE_DIR="$(python -c 'import numpy; print("%s/numpy" % numpy.get_include())')" \
+		-DPPTK_PATCHELF:FILEPATH="/usr/bin/patchelf"
+}
+
+build() {
+	cd "$srcdir/$_name"
+	make
+    #find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+	python setup.py bdist_wheel
+    #find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+}
+
+package() {
+	cd "$srcdir/$_name"
+	_py_version=$(python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+	PIP_CONFIG_FILE=/dev/null pip install --isolated --root="$pkgdir" --ignore-installed --no-deps ./dist/*.whl
+	python -O -m compileall "${pkgdir}/usr/lib/python${_py_version}/site-packages/$_name"
+    find "${pkgdir}/usr/lib/python${_py_version}/site-packages/$_name" | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+}
+
