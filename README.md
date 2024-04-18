@@ -30,6 +30,8 @@ For details, see the [tutorials](https://heremaps.github.io/pptk/tutorial.html).
 Unless otherwise noted in `LICENSE` files for specific files or directories,
 the [LICENSE](LICENSE) in the root applies to all content in this repository.
 
+
+
 ## Install
 
 One can either install pptk directly from PyPI
@@ -78,16 +80,24 @@ in the following CMake cache variables.
 * `PYTHON_INCLUDE_DIR`
 * `PYTHON_LIBRARY`
 * `Eigen_INCLUDE_DIR`
-* `TBB_INCLUDE_DIR`
-* `TBB_tbb_LIBRARY`
-* `TBB_tbb_RUNTIME`
-* `TBB_tbbmalloc_LIBRARY`
-* `TBB_tbbmalloc_RUNTIME`
 * `Qt5_DIR`
 
 To set these variables, either use one of CMake's GUIs (ccmake or cmake-gui),
 or provide an initial CMakeCache.txt in the target build folder
 (for examples of initial cache files, see the CMakeCache.<platform>.txt files)
+
+
+
+Example compilation command:
+
+```bash
+git clone https://github.com/fengwang/pptk.git
+cd pptk && mkdir -p build && cd build
+cmake .  -DEigen_INCLUDE_DIR:FILEPATH="/usr/include/eigen3" -DNumpy_INCLUDE_DIR="$(python -c 'import numpy; print("%s/numpy" % numpy.get_include())')" -DPPTK_PATCHELF:FILEPATH="/usr/bin/patchelf"
+python setup.py bdist_wheel
+```
+
+
 
 ##### Requirements
 
@@ -95,7 +105,6 @@ Listed are versions of libraries used to develop pptk, though earlier versions
 of these libraries may also work.
 
 * [QT](https://www.qt.io/) 5.4
-* [TBB](https://www.threadingbuildingblocks.org/) 4.3
 * [Eigen](http://eigen.tuxfamily.org) 3.2.9
 * [Python](https://www.python.org/) 2.7+ or 3.6+
 * [Numpy](http://www.numpy.org/) 1.13
@@ -128,3 +137,13 @@ Similar to building on Windows.
 ##### Mac
 
 Similar to building on Windows.
+
+
+## TODOs:
+1. clean all compilation warnings
+2. replace tbb with thread
+3. build pakcage for pip
+4. CI/CD pipeline with github actions
+5. ....
+
+
