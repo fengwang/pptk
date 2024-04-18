@@ -5,10 +5,11 @@ import os
 import os.path
 import shutil
 import platform
+import sys
 
-from pip._internal.pep425tags import get_supported
+#from pip._internal.pep425tags import get_supported
 
-wheel_tags = get_supported()[0]
+#wheel_tags = get_supported()[0]
 
 system_type = platform.system()
 
@@ -59,17 +60,18 @@ def list_libs():
 
 setup(
     name='pptk',
-    version='0.1.1',
+    version='0.2.0',
     description='A Python package for facilitating point cloud processing.',
-    author='HERE Europe B.V.',
+    #author='HERE Europe B.V.',
+    author='Feng Wang',
     classifiers=[
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering',
         'License :: OSI Approved :: MIT License'],
     license='MIT',
     install_requires=['numpy'],
-    project_urls={
-        'Source': 'https://github.com/heremaps/pptk'},
+    #project_urls={ 'Source': 'https://github.com/heremaps/pptk'},
+    project_urls={ 'Source': 'https://github.com/fengwang/pptk'},
     packages=find_packages(),
     package_data={
         'pptk': [
@@ -84,6 +86,8 @@ setup(
         'pptk.processing.estimate_normals': [make_mod('estimate_normals')],
         'pptk.vfuncs': [make_mod('vfuncs')],
         'pptk.viewer': [make_exe('viewer'), 'qt.conf']},
-    options={'bdist_wheel': {
-        'python_tag': wheel_tags._interpreter,
-        'plat_name': wheel_tags._platform}})
+    #options={'bdist_wheel': {
+    #    'python_tag': sys.implementation.cache_tag,
+    #    'plat_name': sys.implementation._multiarch}}
+)
+
