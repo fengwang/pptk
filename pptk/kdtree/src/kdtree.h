@@ -13,6 +13,9 @@
 #include "box.h"
 #include "node.h"
 #include "small_node.h"
+#ifdef USE_TBB
+#undef USE_TBB
+#endif  // USE_TBB
 
 #ifdef USE_TBB
 #include "tbb/scalable_allocator.h"

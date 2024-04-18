@@ -5,10 +5,10 @@ set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_CURRENT_SOURCE_DIR})
 
-find_package(PythonLibs 2.7 REQUIRED)
+find_package(PythonLibs 3.5 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(Numpy REQUIRED)
-find_package(TBB REQUIRED)
+#find_package(TBB REQUIRED)
 find_package(Eigen REQUIRED)
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets Network OpenGL Core)
 find_package(OpenMP)
@@ -24,11 +24,11 @@ set(PPTK_LIBS_DIR ${PROJECT_BINARY_DIR}/pptk/libs)
 
 # use the following variable to store a list of .dll paths required by targets
 # built in pptk; this is useful only for building on Windows platform
-get_filename_component(TBB_RUNTIME_DIR ${TBB_tbb_RUNTIME} DIRECTORY)
-set(PPTK_DLL_DIRS
-  ${TBB_RUNTIME_DIR}
-  ${Qt5_DIR}/bin
-  CACHE INTERNAL "Additional folder paths for finding .dll's")
+#get_filename_component(TBB_RUNTIME_DIR ${TBB_tbb_RUNTIME} DIRECTORY)
+#set(PPTK_DLL_DIRS
+#  ${TBB_RUNTIME_DIR}
+#  ${Qt5_DIR}/bin
+#  CACHE INTERNAL "Additional folder paths for finding .dll's")
 
 # use patchelf to modify binary RPATH when building pptk on Linux
 if(UNIX AND NOT APPLE)

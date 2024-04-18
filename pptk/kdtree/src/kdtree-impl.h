@@ -12,11 +12,16 @@
 #include "kdtree.h"
 
 #ifdef USE_TBB
+#undef USE_TBB
+#endif
+
+#ifdef USE_TBB
 #include "tbb/blocked_range.h"
 #include "tbb/parallel_for.h"
 #include "tbb/scalable_allocator.h"
 #include "tbb/task.h"
-#include "tbb/task_scheduler_init.h"
+#include "tbb/tbb.h"
+//#include "tbb/task_scheduler_init.h"
 inline void* Allocate(size_t size) { return scalable_malloc(size); }
 inline void Free(void* ptr) { return scalable_free(ptr); }
 #else
